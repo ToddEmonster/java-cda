@@ -8,7 +8,10 @@ public class Main {
         Baignoire baignoire = new Baignoire(1000, 10);
         Robinet robinet = new Robinet(baignoire, 50);
 
-        robinet.debite();
-        baignoire.fuite();
+        Thread threadBaignoire = new Thread(baignoire);
+        Thread threadRobinet = new Thread(robinet);
+
+        threadRobinet.start();
+        threadBaignoire.start();
     }
 }

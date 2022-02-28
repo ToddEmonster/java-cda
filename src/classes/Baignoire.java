@@ -1,8 +1,9 @@
 package classes;
 
+import static java.lang.Thread.sleep;
 import static util.PrintFormat.FORMAT;
 
-public class Baignoire {
+public class Baignoire implements Runnable {
 
     private int volumeMax;
     private int volumeActuel;
@@ -40,10 +41,23 @@ public class Baignoire {
 
     public void fuite() {
         while (this.volumeActuel > 0) {
-            this.volumeActuel -= this.volumeFuite;
-            String prefix = "Volume baignoire après fuite :";
-            String suffix = " L";
-            System.out.printf(FORMAT, prefix, this.volumeActuel, suffix);
+            synchronized(this) {
+                if (this.volumeActuel > 0) this.volumeActuel -= this.volumeFuite;
+                String prefix = "Volume baignoire après fuite :";
+                System.out.printf(FORMAT, prefix, this.volumeActuel);
+            }
+            try {
+                sleep(2);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
         }
     }
+
+    @Override
+    public void run() {
+        this.fuite();
+    }
+
+    // TODO colmater
 }
