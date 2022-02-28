@@ -1,5 +1,7 @@
 package classes;
 
+import static util.PrintFormat.FORMAT;
+
 public class Robinet {
 
     private Baignoire baignoire;
@@ -13,7 +15,9 @@ public class Robinet {
     public void debite() {
         while (this.baignoire.getVolumeActuel() + this.volumeDebit <= this.baignoire.getVolumeMax()) {
             this.baignoire.setVolumeActuel(this.baignoire.getVolumeActuel() + this.volumeDebit);
-            System.out.printf("%nVolume actuel de la baignoire : %s", this.baignoire.getVolumeActuel());
+            String prefix = "Volume baignoire après débit :";
+            String suffix = " L";
+            System.out.printf(FORMAT, prefix, this.baignoire.getVolumeActuel(), suffix);
         }
     }
 }
