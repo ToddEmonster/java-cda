@@ -1,5 +1,7 @@
-import classes.Baignoire;
-import classes.Robinet;
+package com.multithread;
+
+import com.multithread.classes.Baignoire;
+import com.multithread.classes.Robinet;
 
 public class Main {
 
