@@ -40,24 +40,38 @@ public class Baignoire implements Runnable {
     }
 
     public void fuite() {
-        while (this.volumeActuel > 0) {
-            synchronized(this) {
-                if (this.volumeActuel > 0) this.volumeActuel -= this.volumeFuite;
-                String prefix = "Volume baignoire après fuite :";
-                System.out.printf(FORMAT, prefix, this.volumeActuel);
+        while (this.volumeFuite > 0) {
+            while (this.volumeActuel > 0) {
+                synchronized (this) {
+                    if (this.volumeActuel > 0) this.volumeActuel -= this.volumeFuite;
+                    String prefix = "Volume baignoire après fuite :";
+                    System.out.printf(FORMAT, prefix, this.volumeActuel);
+                }
+                try {
+                    sleep(2);
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
             }
-            try {
-                sleep(2);
-            } catch (Exception e) {
-                System.out.println(e);
+        }
+    }
+
+    public void colmater() {
+        while (this.volumeFuite > 0) {
+            if (this.volumeActuel == 0) {
+                synchronized (this) {
+                    this.volumeFuite -= 1;
+                    String prefix = "Volume fuite après colmater :";
+                    System.out.printf(FORMAT, prefix, this.volumeFuite);
+                }
             }
         }
     }
 
     @Override
     public void run() {
+        this.colmater();
         this.fuite();
     }
 
-    // TODO colmater
 }

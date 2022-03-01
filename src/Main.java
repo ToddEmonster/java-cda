@@ -11,7 +11,7 @@ public class Main {
         Thread threadBaignoire = new Thread(baignoire);
         Thread threadRobinet = new Thread(robinet);
 
-        threadRobinet.start();
         threadBaignoire.start();
+        threadRobinet.start();
     }
 }
