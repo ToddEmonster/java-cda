@@ -1,4 +1,4 @@
-package com.multithread.classes;
+package classes;
 
 import static java.lang.Thread.sleep;
 import static util.PrintFormat.FORMAT;
