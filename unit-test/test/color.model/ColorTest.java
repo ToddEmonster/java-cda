@@ -21,11 +21,25 @@ public class ColorTest {
     }
 
     @Test
+    public void testGetRed() {
+        assertEquals(213, color.getRed(), "getRed() est incorrecte");
+    }
+
+    @Test
+    public void testGetGreen() {
+        assertEquals(141, color.getGreen(), "getGreen() est incorrecte");
+    }
+    @Test
+    public void testGetBlue() {
+        assertEquals(53, color.getBlue(), "getBlue() est incorrecte");
+    }
+
+    @Test
     public void testConstructorRGB() {
         assertAll("Objet Color non conforme",
-                  () -> assertEquals(213, color.red, "Constructeur incorrect sur red"),
-                  () -> assertEquals(141, color.green, "Constructeur incorrect sur green"),
-                  () -> assertEquals(53, color.blue, "Constructeur incorrect sur blue")
+                  () -> assertEquals(213, color.getRed(), "Constructeur incorrect sur red"),
+                  () -> assertEquals(141, color.getGreen(), "Constructeur incorrect sur green"),
+                  () -> assertEquals(53, color.getBlue(), "Constructeur incorrect sur blue")
         );
     }
 
@@ -93,9 +107,9 @@ public class ColorTest {
     public void testConstructorHexadecimal() {
         this.color = new Color("#D58D35");
         assertAll("Objet Color non conforme",
-                  () -> assertEquals(213, color.red, "Constructeur incorrect sur red"),
-                  () -> assertEquals(141, color.green, "Constructeur incorrect sur green"),
-                  () -> assertEquals(53, color.blue, "Constructeur incorrect sur blue")
+                  () -> assertEquals(213, color.getRed(), "Constructeur incorrect sur red"),
+                  () -> assertEquals(141, color.getGreen(), "Constructeur incorrect sur green"),
+                  () -> assertEquals(53, color.getBlue(), "Constructeur incorrect sur blue")
         );
     }
 
