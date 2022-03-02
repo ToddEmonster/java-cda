@@ -7,27 +7,35 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ColorTest {
 
+    // [value=#D58D35, r=213, g=141, b=53]
     private Color color;
 
     @BeforeEach
-    public void cleanStart() {
+    public void setUp() {
+        this.color = new Color(213, 141, 53);
+    }
+
+    @AfterEach
+    public void throwOut() {
         this.color = null;
     }
 
     @Test
-    public void testConstructor() {
-        this.color = new Color(1, 2, 3);
-        assertEquals(1, color.red, "constructeur incorrect sur red");
-        assertEquals(2, color.green, "constructeur incorrect sur green");
-        assertEquals(3, color.blue, "constructeur incorrect sur blue");
+    public void testConstructorRGB() {
+        assertAll("Objet Color non conforme",
+                  () -> assertEquals(213, color.red, "Constructeur incorrect sur red"),
+                  () -> assertEquals(141, color.green, "Constructeur incorrect sur green"),
+                  () -> assertEquals(53, color.blue, "Constructeur incorrect sur blue")
+        );
     }
 
+
     @Test
-    public void testConstructorThrowsExceptionArgumentTooLow() {
+    public void testConstructorRGBThrowsExceptionArgumentTooLow() {
         String expectedErrorMessage = "La valeur d'une couleur doit être comprise entre 0 et 255";
         IllegalArgumentException exceptionRed = assertThrows(
                 IllegalArgumentException.class,
-                () -> new Color(-1, 0, 0),
+                () -> new Color(-1, 141, 53),
                 "Exception non lancée pour une valeur de rouge < 0");
 
         assertTrue(exceptionRed.getMessage().contains(expectedErrorMessage),
@@ -35,7 +43,7 @@ public class ColorTest {
 
         IllegalArgumentException exceptionGreen = assertThrows(
                 IllegalArgumentException.class,
-                () -> new Color(0, -1, 0),
+                () -> new Color(213, -1, 53),
                 "Exception non lancée pour une valeur de vert < 0");
 
         assertTrue(exceptionGreen.getMessage().contains(expectedErrorMessage),
@@ -44,7 +52,7 @@ public class ColorTest {
 
         IllegalArgumentException exceptionBlue = assertThrows(
                 IllegalArgumentException.class,
-                () -> new Color(0, 0, -1),
+                () -> new Color(213, 141, -1),
                 "Exception non lancée pour une valeur de bleu < 0");
 
         assertTrue(exceptionBlue.getMessage().contains(expectedErrorMessage),
@@ -53,11 +61,11 @@ public class ColorTest {
     }
 
     @Test
-    public void testConstructorThrowsExceptionArgumentTooHigh() {
+    public void testConstructorRGBThrowsExceptionArgumentTooHigh() {
         String expectedErrorMessage = "La valeur d'une couleur doit être comprise entre 0 et 255";
         IllegalArgumentException exceptionRed = assertThrows(
                 IllegalArgumentException.class,
-                () -> new Color(256, 0, 0),
+                () -> new Color(256, 141, 43),
                 "Exception non lancée pour une valeur de rouge > 255");
 
         assertTrue(exceptionRed.getMessage().contains(expectedErrorMessage),
@@ -65,7 +73,7 @@ public class ColorTest {
 
         IllegalArgumentException exceptionGreen = assertThrows(
                 IllegalArgumentException.class,
-                () -> new Color(0, 256, 0),
+                () -> new Color(213, 256, 53),
                 "Exception non lancée pour une valeur de vert > 255");
 
         assertTrue(exceptionGreen.getMessage().contains(expectedErrorMessage),
@@ -74,16 +82,22 @@ public class ColorTest {
 
         IllegalArgumentException exceptionBlue = assertThrows(
                 IllegalArgumentException.class,
-                () -> new Color(0, 0, 256),
+                () -> new Color(213, 141, 256),
                 "Exception non lancée pour une valeur de bleu > 255");
 
         assertTrue(exceptionBlue.getMessage().contains(expectedErrorMessage),
                    "Message d'exception manquant pour une valeur de bleu > 255");
     }
 
-
-    @AfterEach
-    public void throwOut() {
-        this.color = null;
+    @Test
+    public void testConstructorHexadecimal() {
+        this.color = new Color("#D58D35");
+        assertAll("Objet Color non conforme",
+                  () -> assertEquals(213, color.red, "Constructeur incorrect sur red"),
+                  () -> assertEquals(141, color.green, "Constructeur incorrect sur green"),
+                  () -> assertEquals(53, color.blue, "Constructeur incorrect sur blue")
+        );
     }
+
+    // TODO getter / setter
 }
