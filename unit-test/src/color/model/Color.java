@@ -1,5 +1,6 @@
 package color.model;
 
+import java.util.Collections;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -7,13 +8,12 @@ import java.util.regex.Pattern;
 
 public class Color {
 
-    // TODO constantes pour les valeurs inférieures et supérieures (0 et 255)
+    final static int RGB_INFERIOR_LIMIT = 0;
+    final static int RGB_SUPERIOR_LIMIT = 255;
+    final static String HEX_DOUBLE_DIGIT_REGEX_PATTERN = "([0-9a-fA-F]{2}+)";
 
     final static Pattern hexadecimalRegexPattern = Pattern.compile(
-            "#"
-            + "([0-9a-fA-F]{2}+)"
-            + "([0-9a-fA-F]{2}+)"
-            + "([0-9a-fA-F]{2}+)");
+            "#" + String.join("", Collections.nCopies(3, HEX_DOUBLE_DIGIT_REGEX_PATTERN)));
     final static Hashtable<String, Integer> hexToRGBDictionary;
     final static Hashtable<Integer, String> RGBToHexDictionary;
 
@@ -129,7 +129,7 @@ public class Color {
     }
 
     private boolean rgbValueIsValid(int rgbValue) {
-        return rgbValue >= 0 && rgbValue <= 255;
+        return rgbValue >= RGB_INFERIOR_LIMIT && rgbValue <= RGB_SUPERIOR_LIMIT;
     }
 
 }

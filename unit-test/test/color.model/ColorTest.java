@@ -35,6 +35,11 @@ public class ColorTest {
     }
 
     @Test
+    public void testGetHexadecimalCode() {
+        assertEquals("#D58D35", color.getHexadecimalCode(), "getHexadecimalCode() est incorrecte");
+    }
+
+    @Test
     public void testConstructorRGB() {
         assertAll("Objet Color non conforme",
                   () -> assertEquals(213, color.getRed(), "Constructeur incorrect sur red"),
