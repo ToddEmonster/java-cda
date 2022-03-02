@@ -20,6 +20,11 @@ public class ColorTest {
         this.color = null;
     }
 
+    /*
+    ------------------------------------------------------------------------------------------
+    Getters
+    ------------------------------------------------------------------------------------------
+    */
     @Test
     public void testGetRed() {
         assertEquals(213, color.getRed(), "getRed() est incorrecte");
@@ -39,15 +44,11 @@ public class ColorTest {
         assertEquals("#D58D35", color.getHexValue(), "getHexadecimalCode() est incorrecte");
     }
 
-    @Test
-    public void testConstructorRGB() {
-        assertAll("Objet Color non conforme",
-                  () -> assertEquals(213, color.getRed(), "Constructeur incorrect sur red"),
-                  () -> assertEquals(141, color.getGreen(), "Constructeur incorrect sur green"),
-                  () -> assertEquals(53, color.getBlue(), "Constructeur incorrect sur blue")
-        );
-    }
-
+    /*
+    ------------------------------------------------------------------------------------------
+    Setters
+    ------------------------------------------------------------------------------------------
+    */
     @Test
     public void testSetRed() {
         color.setRed(25);
@@ -86,6 +87,24 @@ public class ColorTest {
                   () -> assertEquals(67, color.getGreen(), "getGreen() est incorrect"),
                   () -> assertEquals(177, color.getBlue(), "getBlue() est incorrect"),
                   () -> assertEquals("#1643B1", color.getHexValue(), "getHexadecimalCode() est incorrect"));
+    }
+
+    // TODO : setters throw exception * 4
+
+    /*
+    ------------------------------------------------------------------------------------------
+    Constructeurs
+    ------------------------------------------------------------------------------------------
+    */
+
+    // RGB
+    @Test
+    public void testConstructorRGB() {
+        assertAll("Objet Color non conforme",
+                  () -> assertEquals(213, color.getRed(), "Constructeur incorrect sur red"),
+                  () -> assertEquals(141, color.getGreen(), "Constructeur incorrect sur green"),
+                  () -> assertEquals(53, color.getBlue(), "Constructeur incorrect sur blue")
+        );
     }
 
     @Test
@@ -147,6 +166,7 @@ public class ColorTest {
                    "Message d'exception manquant pour une valeur de bleu > 255");
     }
 
+    // Hex
     @Test
     public void testConstructorHexadecimal() {
         this.color = new Color("#D58D35");
@@ -157,5 +177,5 @@ public class ColorTest {
         );
     }
 
-    // TODO getter / setter
+    // TODO hex throws exception
 }
