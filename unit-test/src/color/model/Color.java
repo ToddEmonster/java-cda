@@ -8,15 +8,26 @@ import java.util.regex.Pattern;
 
 public class Color {
 
+    // Constantes de format des valeurs
     final static int RGB_INFERIOR_LIMIT = 0;
     final static int RGB_SUPERIOR_LIMIT = 255;
     final static String HEX_DOUBLE_DIGIT_REGEX_PATTERN = "([0-9a-fA-F]{2}+)";
-
-    final static Pattern hexadecimalRegexPattern = Pattern.compile(
+    final static Pattern HEX_CODE_REGEX_PATTERN = Pattern.compile(
             "#" + String.join("", Collections.nCopies(3, HEX_DOUBLE_DIGIT_REGEX_PATTERN)));
+
+    // Messages d'erreurs
+    final static String RGB_INVALID_ERROR_MESSAGE = "La valeur d'une couleur doit être comprise entre 0 et 255";
+    final static String HEX_DIGIT_ERROR_MESSAGE = "Valeur hex incorrecte (doit être deux caractères 0-9 ou A-F)";
+    final static String HEX_CODE_INVALID_ERROR_MESSAGE =
+            "Le code hexadecimal entré est incorrect. Il doit être de la forme "
+                    + "'#xxxxxx' où 'xx' est un chiffre hexadécimal compris entre 0 et 9 "
+                    + "ou A, B, C, D, E, F";
+
+    // Dictionnaires de conversion RGB / hexadecimal
     final static Hashtable<String, Integer> hexToRGBDictionary;
     final static Hashtable<Integer, String> RGBToHexDictionary;
 
+    // Initialisation des dictionnaires
     static {
         hexToRGBDictionary = new Hashtable<>();
 
@@ -36,40 +47,31 @@ public class Color {
         }
     }
 
+    // Attributs de la classe;
     private int red;
     private int green;
     private int blue;
-    private String hexadecimalCode;
+    private String hexValue;
+
+    // Constructeurs
 
     public Color(int red, int green, int blue) throws IllegalArgumentException {
         if (!rgbValueIsValid(red) || !rgbValueIsValid(green) || !rgbValueIsValid(blue))
         {
-            throw new IllegalArgumentException("La valeur d'une couleur doit être comprise entre 0 et 255");
+            throw new IllegalArgumentException(RGB_INVALID_ERROR_MESSAGE);
         } else {
             this.red = red;
             this.green = green;
             this.blue = blue;
-            this.hexadecimalCode = rgbCodeToHexidacemalCode(red, green, blue);
+            this.hexValue = rgbCodeToHexidacemalCode(red, green, blue);
         }
     }
 
-    public Color(String hexadecimalCode) throws IllegalArgumentException {
-        Matcher matcher = hexadecimalRegexPattern.matcher(hexadecimalCode);
-        boolean hexadecimalInputIsCorrect = matcher.matches();
-        if (!hexadecimalInputIsCorrect) {
-            throw new IllegalArgumentException(
-                    "Le code hexadecimal entré est incorrect. "
-                  + "Il doit être de la forme "
-                  + "'#xxxxxx' où 'xx' est un chiffre hexadécimal compris entre 0 et 9 "
-                  + "ou A, B, C, D, E, F");
-        } else {
-            // group(0) = whole pattern
-            this.red = hexToRGBValue(matcher.group(1));
-            this.green = hexToRGBValue(matcher.group(2));
-            this.blue = hexToRGBValue(matcher.group(3));
-            this.hexadecimalCode = hexadecimalCode;
-        }
+    public Color(String hexValue) throws IllegalArgumentException {
+        this.setHexValue(hexValue);
     }
+
+    // Getters
 
     public int getRed() {
         return red;
@@ -83,30 +85,74 @@ public class Color {
         return blue;
     }
 
-    public String getHexadecimalCode() {
-        return hexadecimalCode;
+    public String getHexValue() {
+        return hexValue;
     }
+
+    // Setters
+
+    public void setRed(int red) throws IllegalArgumentException {
+        if (rgbValueIsValid(red)) {
+            this.red = red;
+            this.hexValue = rgbCodeToHexidacemalCode(red, this.green, this.blue);
+        } else {
+            throw new IllegalArgumentException(RGB_INVALID_ERROR_MESSAGE);
+        }
+    }
+
+    public void setGreen(int green) throws IllegalArgumentException {
+        if (rgbValueIsValid(green)) {
+            this.green = green;
+            this.hexValue = rgbCodeToHexidacemalCode(this.red, green, this.blue);
+        } else {
+            throw new IllegalArgumentException(RGB_INVALID_ERROR_MESSAGE);
+        }
+    }
+
+    public void setBlue(int blue) throws IllegalArgumentException {
+        if (rgbValueIsValid(blue)) {
+            this.blue = blue;
+            this.hexValue = rgbCodeToHexidacemalCode(this.red, this.green, blue);
+        } else {
+            throw new IllegalArgumentException(RGB_INVALID_ERROR_MESSAGE);
+        }
+    }
+
+    public void setHexValue(String hexValue) throws IllegalArgumentException{
+        Matcher matcher = HEX_CODE_REGEX_PATTERN.matcher(hexValue);
+        boolean hexadecimalInputIsCorrect = matcher.matches();
+        if (hexadecimalInputIsCorrect) {
+            // group(0) = whole pattern
+            this.red = hexDoubleDigitToRGBValue(matcher.group(1));
+            this.green = hexDoubleDigitToRGBValue(matcher.group(2));
+            this.blue = hexDoubleDigitToRGBValue(matcher.group(3));
+            this.hexValue = hexValue;
+        } else {
+            throw new IllegalArgumentException(HEX_CODE_INVALID_ERROR_MESSAGE);
+        }
+    }
+
+    // Méthodes privées de conversion
 
     /**
      * Méthode privée pour retourner la valeur en RGB d'un des groupes d'un triplet hexadécimal
      *
      * [source](https://www.developintelligence.com/blog/2017/02/rgb-to-hex-understanding-the-major-web-color-codes/)
-     * @param hexInputValue     Deux chiffres hexadécimaux
+     * @param hexDoubleDigitInputValue     Deux chiffres hexadécimaux
      * @return                  Le chiffre RGB correspondant
      * @throws IllegalArgumentException     lorsque la valeur entrée n'est pas valide
      */
-    private int hexToRGBValue(String hexInputValue) throws IllegalArgumentException {
+    private int hexDoubleDigitToRGBValue(String hexDoubleDigitInputValue) throws IllegalArgumentException {
         final Pattern hexadecimalValidPattern = Pattern.compile("[A-Fa-f0-9]{2}+");
-        Matcher validMatcher = hexadecimalValidPattern.matcher(hexInputValue);
+        Matcher validMatcher = hexadecimalValidPattern.matcher(hexDoubleDigitInputValue);
         boolean inputIsValid = validMatcher.matches();
 
-        if (!inputIsValid) {
-            throw new IllegalArgumentException("Invalid hex value (must be two digits like 0-9 or A-F)");
-        } else {
-            String firstDigit = hexInputValue.substring(0, 1);
-            String secondDigit = hexInputValue.substring(1, 2);
-
+        if (inputIsValid) {
+            String firstDigit = hexDoubleDigitInputValue.substring(0, 1);
+            String secondDigit = hexDoubleDigitInputValue.substring(1, 2);
             return hexToRGBDictionary.get(firstDigit) * 16 + hexToRGBDictionary.get(secondDigit);
+        } else {
+            throw new IllegalArgumentException(HEX_DIGIT_ERROR_MESSAGE);
         }
     }
 
@@ -121,7 +167,6 @@ public class Color {
         if (rgbValueIsValid(rgbValue)) {
             int decimalPart = rgbValue / 16;
             int remainderPart = rgbValue % 16;
-
             return RGBToHexDictionary.get(decimalPart) + RGBToHexDictionary.get(remainderPart);
         } else {
             throw new IllegalArgumentException("La valeur de la composante RGB est invalide");

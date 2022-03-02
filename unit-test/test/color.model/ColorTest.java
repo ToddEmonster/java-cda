@@ -36,7 +36,7 @@ public class ColorTest {
 
     @Test
     public void testGetHexadecimalCode() {
-        assertEquals("#D58D35", color.getHexadecimalCode(), "getHexadecimalCode() est incorrecte");
+        assertEquals("#D58D35", color.getHexValue(), "getHexadecimalCode() est incorrecte");
     }
 
     @Test
@@ -48,6 +48,45 @@ public class ColorTest {
         );
     }
 
+    @Test
+    public void testSetRed() {
+        color.setRed(25);
+        assertAll("setRed() incorrect",
+                  () -> assertEquals(25, color.getRed(), "getRed() est incorrect"),
+                  () -> assertEquals(141, color.getGreen(), "getGreen() est incorrect"),
+                  () -> assertEquals(53, color.getBlue(), "getBlue() est incorrect"),
+                  () -> assertEquals("#198D35", color.getHexValue(), "getHexadecimalCode() est incorrect"));
+    }
+
+    @Test
+    public void testSetGreen() {
+        color.setGreen(25);
+        assertAll("setRed() incorrect",
+                  () -> assertEquals(213, color.getRed(), "Invalide sur getRed()"),
+                  () -> assertEquals(25, color.getGreen(), "Invalide sur getGreen()"),
+                  () -> assertEquals(53, color.getBlue(), "Invalide sur getBlue()"),
+                  () -> assertEquals("#D51935", color.getHexValue(), "Invalide sur getHexadecimalCode()"));
+    }
+
+    @Test
+    public void testSetBlue() {
+        color.setBlue(25);
+        assertAll("setRed() incorrect",
+                  () -> assertEquals(213, color.getRed(), "getRed() est incorrect"),
+                  () -> assertEquals(141, color.getGreen(), "getGreen() est incorrect"),
+                  () -> assertEquals(25, color.getBlue(), "getBlue() est incorrect"),
+                  () -> assertEquals("#D58D19", color.getHexValue(), "getHexadecimalCode() est incorrect"));
+    }
+
+    @Test
+    public void testSetHexValue() {
+        color.setHexValue("#1643B1");
+        assertAll("setHexValue() incorrect",
+                  () -> assertEquals(22, color.getRed(), "getRed() est incorrect"),
+                  () -> assertEquals(67, color.getGreen(), "getGreen() est incorrect"),
+                  () -> assertEquals(177, color.getBlue(), "getBlue() est incorrect"),
+                  () -> assertEquals("#1643B1", color.getHexValue(), "getHexadecimalCode() est incorrect"));
+    }
 
     @Test
     public void testConstructorRGBThrowsExceptionArgumentTooLow() {
