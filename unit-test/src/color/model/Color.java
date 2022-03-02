@@ -15,7 +15,7 @@ public class Color {
     final static Pattern HEX_CODE_REGEX_PATTERN = Pattern.compile(
             "#" + String.join("", Collections.nCopies(3, HEX_DOUBLE_DIGIT_REGEX_PATTERN)));
 
-    // Messages d'erreurs
+    // Messages d'erreur
     final static String RGB_INVALID_ERROR_MESSAGE = "La valeur d'une couleur doit être comprise entre 0 et 255";
     final static String HEX_DIGIT_ERROR_MESSAGE = "Valeur hex incorrecte (doit être deux caractères 0-9 ou A-F)";
     final static String HEX_CODE_INVALID_ERROR_MESSAGE =
@@ -148,8 +148,8 @@ public class Color {
         boolean inputIsValid = validMatcher.matches();
 
         if (inputIsValid) {
-            String firstDigit = hexDoubleDigitInputValue.substring(0, 1);
-            String secondDigit = hexDoubleDigitInputValue.substring(1, 2);
+            String firstDigit = hexDoubleDigitInputValue.substring(0, 1).toUpperCase();
+            String secondDigit = hexDoubleDigitInputValue.substring(1, 2).toUpperCase();
             return hexToRGBDictionary.get(firstDigit) * 16 + hexToRGBDictionary.get(secondDigit);
         } else {
             throw new IllegalArgumentException(HEX_DIGIT_ERROR_MESSAGE);

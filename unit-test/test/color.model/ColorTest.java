@@ -20,6 +20,15 @@ public class ColorTest {
         this.color = null;
     }
 
+    // Messages d'erreur attendus
+    final static String RGB_INVALID_ERROR_MESSAGE = "La valeur d'une couleur doit être comprise entre 0 et 255";
+    final static String HEX_DIGIT_ERROR_MESSAGE = "Valeur hex incorrecte (doit être deux caractères 0-9 ou A-F)";
+    final static String HEX_CODE_INVALID_ERROR_MESSAGE =
+            "Le code hexadecimal entré est incorrect. Il doit être de la forme "
+                    + "'#xxxxxx' où 'xx' est un chiffre hexadécimal compris entre 0 et 9 "
+                    + "ou A, B, C, D, E, F";
+
+
     /*
     ------------------------------------------------------------------------------------------
     Getters
@@ -109,61 +118,86 @@ public class ColorTest {
 
     @Test
     public void testConstructorRGBThrowsExceptionArgumentTooLow() {
-        String expectedErrorMessage = "La valeur d'une couleur doit être comprise entre 0 et 255";
-        IllegalArgumentException exceptionRed = assertThrows(
-                IllegalArgumentException.class,
-                () -> new Color(-1, 141, 53),
-                "Exception non lancée pour une valeur de rouge < 0");
-
-        assertTrue(exceptionRed.getMessage().contains(expectedErrorMessage),
-                   "Message d'exception manquant pour une valeur de rouge < 0");
-
-        IllegalArgumentException exceptionGreen = assertThrows(
-                IllegalArgumentException.class,
-                () -> new Color(213, -1, 53),
-                "Exception non lancée pour une valeur de vert < 0");
-
-        assertTrue(exceptionGreen.getMessage().contains(expectedErrorMessage),
-                   "Message d'exception manquant pour une valeur de vert < 0");
-
-
-        IllegalArgumentException exceptionBlue = assertThrows(
-                IllegalArgumentException.class,
-                () -> new Color(213, 141, -1),
-                "Exception non lancée pour une valeur de bleu < 0");
-
-        assertTrue(exceptionBlue.getMessage().contains(expectedErrorMessage),
-                   "Message d'exception manquant pour une valeur de bleu < 0");
-
+        assertAll("Exception non gérée sur le constructeur RGB pour input < 0",
+                  () -> { // red
+                      IllegalArgumentException exceptionRed = assertThrows(
+                              IllegalArgumentException.class,
+                              () -> new Color(-1, 141, 43),
+                              "Exception non lancée pour une valeur de rouge < 0");
+                      assertNotNull(
+                              exceptionRed.getMessage(),
+                              "Message d'exception manquant pour une valeur de rouge < 0");
+                      assertTrue(
+                              exceptionRed.getMessage().contains(RGB_INVALID_ERROR_MESSAGE),
+                              "Message d'exception incorrect pour une valeur de rouge < 0");
+                  },
+                  () -> { // green
+                      IllegalArgumentException exceptionGreen = assertThrows(
+                              IllegalArgumentException.class,
+                              () -> new Color(213, -1, 43),
+                              "Exception non lancée pour une valeur de vert < 0");
+                      assertNotNull(
+                              exceptionGreen.getMessage(),
+                              "Message d'exception manquant pour une valeur de vert < 0");
+                      assertTrue(
+                              exceptionGreen.getMessage().contains(RGB_INVALID_ERROR_MESSAGE),
+                              "Message d'exception incorrect pour une valeur de vert < 0");
+                  },
+                  () -> { // blue
+                      IllegalArgumentException exceptionBlue = assertThrows(
+                              IllegalArgumentException.class,
+                              () -> new Color(213, 141, -1),
+                              "Exception non lancée pour une valeur de bleu < 0");
+                      assertNotNull(
+                              exceptionBlue.getMessage(),
+                              "Message d'exception manquant pour une valeur de bleu < 0");
+                      assertTrue(
+                              exceptionBlue.getMessage().contains(RGB_INVALID_ERROR_MESSAGE),
+                              "Message d'exception incorrect pour une valeur de bleu < 0");
+                  }
+        );
     }
 
     @Test
     public void testConstructorRGBThrowsExceptionArgumentTooHigh() {
-        String expectedErrorMessage = "La valeur d'une couleur doit être comprise entre 0 et 255";
-        IllegalArgumentException exceptionRed = assertThrows(
-                IllegalArgumentException.class,
-                () -> new Color(256, 141, 43),
-                "Exception non lancée pour une valeur de rouge > 255");
-
-        assertTrue(exceptionRed.getMessage().contains(expectedErrorMessage),
-                   "Message d'exception manquant pour une valeur de rouge > 255");
-
-        IllegalArgumentException exceptionGreen = assertThrows(
-                IllegalArgumentException.class,
-                () -> new Color(213, 256, 53),
-                "Exception non lancée pour une valeur de vert > 255");
-
-        assertTrue(exceptionGreen.getMessage().contains(expectedErrorMessage),
-                   "Message d'exception manquant pour une valeur de vert > 255");
-
-
-        IllegalArgumentException exceptionBlue = assertThrows(
-                IllegalArgumentException.class,
-                () -> new Color(213, 141, 256),
-                "Exception non lancée pour une valeur de bleu > 255");
-
-        assertTrue(exceptionBlue.getMessage().contains(expectedErrorMessage),
-                   "Message d'exception manquant pour une valeur de bleu > 255");
+        assertAll("Exception non gérée sur le constructeur RGB pour input > 255",
+                  () -> { // red
+                      IllegalArgumentException exceptionRed = assertThrows(
+                              IllegalArgumentException.class,
+                              () -> new Color(256, 141, 43),
+                              "Exception non lancée pour une valeur de rouge > 255");
+                      assertNotNull(
+                              exceptionRed.getMessage(),
+                              "Message d'exception manquant pour une valeur de rouge > 255");
+                      assertTrue(
+                              exceptionRed.getMessage().contains(RGB_INVALID_ERROR_MESSAGE),
+                              "Message d'exception incorrect pour une valeur de rouge > 255");
+                  },
+                  () -> { // green
+                      IllegalArgumentException exceptionGreen = assertThrows(
+                              IllegalArgumentException.class,
+                              () -> new Color(213, 256, 43),
+                              "Exception non lancée pour une valeur de vert > 255");
+                      assertNotNull(
+                              exceptionGreen.getMessage(),
+                              "Message d'exception manquant pour une valeur de vert > 255");
+                      assertTrue(
+                              exceptionGreen.getMessage().contains(RGB_INVALID_ERROR_MESSAGE),
+                              "Message d'exception incorrect pour une valeur de vert > 255");
+                  },
+                  () -> { // blue
+                      IllegalArgumentException exceptionBlue = assertThrows(
+                              IllegalArgumentException.class,
+                              () -> new Color(213, 141, 256),
+                              "Exception non lancée pour une valeur de bleu > 255");
+                      assertNotNull(
+                              exceptionBlue.getMessage(),
+                              "Message d'exception manquant pour une valeur de bleu > 255");
+                      assertTrue(
+                              exceptionBlue.getMessage().contains(RGB_INVALID_ERROR_MESSAGE),
+                              "Message d'exception incorrect pour une valeur de bleu > 255");
+                  }
+        );
     }
 
     // Hex
@@ -177,5 +211,58 @@ public class ColorTest {
         );
     }
 
-    // TODO hex throws exception
+    @Test
+    public void testConstructorHexThrowsExceptionArgumentInvalid() {
+        assertAll("Exception non gérée sur le constructeur hex pour input incorrect",
+                  () -> { // hex
+                      IllegalArgumentException exceptionHex = assertThrows(
+                              IllegalArgumentException.class,
+                              () -> new Color("mauvaiseValeur"),
+                              "Exception non lancée pour une valeur de hex invalide");
+                      assertNotNull(
+                              exceptionHex.getMessage(),
+                              "Message d'exception manquant pour une valeur de hex invalide");
+                      assertTrue(
+                              exceptionHex.getMessage().contains(HEX_CODE_INVALID_ERROR_MESSAGE),
+                              "Message d'exception incorrect pour une valeur de hex invalide");
+
+                  },
+                  () -> {
+                      IllegalArgumentException exceptionHex = assertThrows(
+                              IllegalArgumentException.class,
+                              () -> new Color("&D58D35"),
+                              "Exception non lancée pour une valeur de hex invalide");
+                      assertNotNull(
+                              exceptionHex.getMessage(),
+                              "Message d'exception manquant pour une valeur de hex invalide");
+                      assertTrue(
+                              exceptionHex.getMessage().contains(HEX_CODE_INVALID_ERROR_MESSAGE),
+                              "Message d'exception incorrect pour une valeur de hex invalide");
+                  },
+                  () -> {
+                      IllegalArgumentException exceptionHex = assertThrows(
+                              IllegalArgumentException.class,
+                              () -> new Color("#G58D35"),
+                              "Exception non lancée pour une valeur de hex invalide");
+                      assertNotNull(
+                              exceptionHex.getMessage(),
+                              "Message d'exception manquant pour une valeur de hex invalide");
+                      assertTrue(
+                              exceptionHex.getMessage().contains(HEX_CODE_INVALID_ERROR_MESSAGE),
+                              "Message d'exception incorrect pour une valeur de hex invalide");
+                  },
+                  () -> {
+                      IllegalArgumentException exceptionHex = assertThrows(
+                              IllegalArgumentException.class,
+                              () -> new Color("#D108D35"),
+                              "Exception non lancée pour une valeur de hex invalide");
+                      assertNotNull(
+                              exceptionHex.getMessage(),
+                              "Message d'exception manquant pour une valeur de hex invalide");
+                      assertTrue(
+                              exceptionHex.getMessage().contains(HEX_CODE_INVALID_ERROR_MESSAGE),
+                              "Message d'exception incorrect pour une valeur de hex invalide");
+                  }
+        );
+    }
 }
