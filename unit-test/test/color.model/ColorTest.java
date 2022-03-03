@@ -3,6 +3,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.function.Function;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ColorTest {
@@ -27,6 +29,9 @@ public class ColorTest {
             "Le code hexadecimal entré est incorrect. Il doit être de la forme "
                     + "'#xxxxxx' où 'xx' est un chiffre hexadécimal compris entre 0 et 9 "
                     + "ou A, B, C, D, E, F";
+
+
+    enum ExceptionState {NOT_THROWED, MESSAGE_MISSING, MESSAGE_INVALID }
 
 
     /*
@@ -160,42 +165,52 @@ public class ColorTest {
 
     @Test
     public void testConstructorRGBThrowsExceptionArgumentTooHigh() {
+        Function<String, String> failureReason = color -> "une valeur de " + color + " > 255";
         assertAll("Exception non gérée sur le constructeur RGB pour input > 255",
                   () -> { // red
                       IllegalArgumentException exceptionRed = assertThrows(
                               IllegalArgumentException.class,
                               () -> new Color(256, 141, 43),
-                              "Exception non lancée pour une valeur de rouge > 255");
+                              testFailureMessageForException(ExceptionState.NOT_THROWED,
+                                                             failureReason.apply("red")));
                       assertNotNull(
                               exceptionRed.getMessage(),
-                              "Message d'exception manquant pour une valeur de rouge > 255");
+                              testFailureMessageForException(ExceptionState.MESSAGE_MISSING,
+                                                             failureReason.apply("red")));
                       assertTrue(
                               exceptionRed.getMessage().contains(RGB_INVALID_ERROR_MESSAGE),
-                              "Message d'exception incorrect pour une valeur de rouge > 255");
+                              testFailureMessageForException(ExceptionState.MESSAGE_INVALID,
+                                                             failureReason.apply("red")));
                   },
                   () -> { // green
                       IllegalArgumentException exceptionGreen = assertThrows(
                               IllegalArgumentException.class,
                               () -> new Color(213, 256, 43),
-                              "Exception non lancée pour une valeur de vert > 255");
+                              testFailureMessageForException(ExceptionState.NOT_THROWED,
+                                                             failureReason.apply("green")));
                       assertNotNull(
                               exceptionGreen.getMessage(),
-                              "Message d'exception manquant pour une valeur de vert > 255");
+                              testFailureMessageForException(ExceptionState.MESSAGE_MISSING,
+                                                             failureReason.apply("green")));
                       assertTrue(
                               exceptionGreen.getMessage().contains(RGB_INVALID_ERROR_MESSAGE),
-                              "Message d'exception incorrect pour une valeur de vert > 255");
+                              testFailureMessageForException(ExceptionState.MESSAGE_INVALID,
+                                                             failureReason.apply("green")));
                   },
                   () -> { // blue
                       IllegalArgumentException exceptionBlue = assertThrows(
                               IllegalArgumentException.class,
                               () -> new Color(213, 141, 256),
-                              "Exception non lancée pour une valeur de bleu > 255");
+                              testFailureMessageForException(ExceptionState.NOT_THROWED,
+                                                             failureReason.apply("blue")));
                       assertNotNull(
                               exceptionBlue.getMessage(),
-                              "Message d'exception manquant pour une valeur de bleu > 255");
+                              testFailureMessageForException(ExceptionState.MESSAGE_MISSING,
+                                                             failureReason.apply("blue")));
                       assertTrue(
                               exceptionBlue.getMessage().contains(RGB_INVALID_ERROR_MESSAGE),
-                              "Message d'exception incorrect pour une valeur de bleu > 255");
+                              testFailureMessageForException(ExceptionState.MESSAGE_INVALID,
+                                                             failureReason.apply("blue")));
                   }
         );
     }
@@ -213,56 +228,76 @@ public class ColorTest {
 
     @Test
     public void testConstructorHexThrowsExceptionArgumentInvalid() {
+        final String FAIL_REASON = "une valeur de hex invalide";
+
         assertAll("Exception non gérée sur le constructeur hex pour input incorrect",
                   () -> { // hex
                       IllegalArgumentException exceptionHex = assertThrows(
                               IllegalArgumentException.class,
                               () -> new Color("mauvaiseValeur"),
-                              "Exception non lancée pour une valeur de hex invalide");
+                              testFailureMessageForException(ExceptionState.NOT_THROWED, FAIL_REASON));
                       assertNotNull(
                               exceptionHex.getMessage(),
-                              "Message d'exception manquant pour une valeur de hex invalide");
+                              testFailureMessageForException(ExceptionState.MESSAGE_MISSING, FAIL_REASON));
                       assertTrue(
                               exceptionHex.getMessage().contains(HEX_CODE_INVALID_ERROR_MESSAGE),
-                              "Message d'exception incorrect pour une valeur de hex invalide");
+                              testFailureMessageForException(ExceptionState.MESSAGE_INVALID, FAIL_REASON));
 
                   },
                   () -> {
                       IllegalArgumentException exceptionHex = assertThrows(
                               IllegalArgumentException.class,
                               () -> new Color("&D58D35"),
-                              "Exception non lancée pour une valeur de hex invalide");
+                              testFailureMessageForException(ExceptionState.NOT_THROWED, FAIL_REASON));
                       assertNotNull(
                               exceptionHex.getMessage(),
-                              "Message d'exception manquant pour une valeur de hex invalide");
+                              testFailureMessageForException(ExceptionState.MESSAGE_MISSING, FAIL_REASON));
                       assertTrue(
                               exceptionHex.getMessage().contains(HEX_CODE_INVALID_ERROR_MESSAGE),
-                              "Message d'exception incorrect pour une valeur de hex invalide");
+                              testFailureMessageForException(ExceptionState.MESSAGE_INVALID, FAIL_REASON));
                   },
                   () -> {
                       IllegalArgumentException exceptionHex = assertThrows(
                               IllegalArgumentException.class,
                               () -> new Color("#G58D35"),
-                              "Exception non lancée pour une valeur de hex invalide");
+                              testFailureMessageForException(ExceptionState.NOT_THROWED, FAIL_REASON));
                       assertNotNull(
                               exceptionHex.getMessage(),
-                              "Message d'exception manquant pour une valeur de hex invalide");
+                              testFailureMessageForException(ExceptionState.MESSAGE_MISSING, FAIL_REASON));
                       assertTrue(
                               exceptionHex.getMessage().contains(HEX_CODE_INVALID_ERROR_MESSAGE),
-                              "Message d'exception incorrect pour une valeur de hex invalide");
+                              testFailureMessageForException(ExceptionState.MESSAGE_INVALID, FAIL_REASON));
                   },
                   () -> {
                       IllegalArgumentException exceptionHex = assertThrows(
                               IllegalArgumentException.class,
                               () -> new Color("#D108D35"),
-                              "Exception non lancée pour une valeur de hex invalide");
+                              testFailureMessageForException(ExceptionState.NOT_THROWED, FAIL_REASON));
                       assertNotNull(
                               exceptionHex.getMessage(),
-                              "Message d'exception manquant pour une valeur de hex invalide");
+                              testFailureMessageForException(ExceptionState.MESSAGE_MISSING, FAIL_REASON));
                       assertTrue(
                               exceptionHex.getMessage().contains(HEX_CODE_INVALID_ERROR_MESSAGE),
-                              "Message d'exception incorrect pour une valeur de hex invalide");
+                              testFailureMessageForException(ExceptionState.MESSAGE_INVALID, FAIL_REASON));
                   }
         );
     }
+
+
+    // Méthodes pour générer les messages d'erreur :
+    private String testFailureMessageForException(ExceptionState state, String reason) {
+        switch (state) {
+            case NOT_THROWED:
+            default:
+                return "Exception non lancée pour " + reason;
+
+            case MESSAGE_MISSING:
+                return "Message d'exception manquant pour " + reason;
+
+            case MESSAGE_INVALID:
+                return "Message d'exception incorrect pour " + reason;
+        }
+    }
+
+
 }
