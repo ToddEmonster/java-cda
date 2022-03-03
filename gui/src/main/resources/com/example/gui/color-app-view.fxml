@@ -8,14 +8,20 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.shape.Rectangle?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
+
+<VBox alignment="CENTER" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.gui.ColorAppController">
     <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+        <Insets bottom="1.0" left="5.0" right="5.0" top="1.0"/>
     </padding>
 
-    <HBox>
-        <VBox>
+    <HBox alignment="center">
+        <VBox
+              style="-fx-padding: 5;
+                    -fx-alignment: center-left;
+                    -fx-border-style: solid;
+                    -fx-border-width: 1px;
+                    -fx-border-color: magenta;">
             <Label fx:id="redLabel" />
             <HBox alignment="center" spacing="25.0">
                 <Slider fx:id="redSlider" max="255"/>
@@ -32,10 +38,15 @@
                 <TextField fx:id="blueInput"/>
             </HBox>
         </VBox>
-        <VBox style="-fx-border: solid 1px red; -fx-padding: 50;">
+        <VBox alignment="center"
+              style="-fx-padding: 5;
+                    -fx-border-style: solid;
+                    -fx-border-width: 1px;
+                    -fx-border-color: red;">
             <Label fx:id="hexLabel" />
             <TextField alignment="center" fx:id="hexInput"/>
-            <Rectangle fx:id="colorShape" width="200" height="150" />
+            <Rectangle fx:id="colorShape" width="200" height="150"
+                    style="-fx-position-shape: true;"/>
         </VBox>
     </HBox>
 

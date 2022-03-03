@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ColorTest {
 
-    // [value=#D58D35, r=213, g=141, b=53]
+    // [value=, r=213, g=141, b=53]
     private Color color;
 
     @BeforeEach

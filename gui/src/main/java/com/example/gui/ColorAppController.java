@@ -10,6 +10,9 @@ import todd.color.model.Color;
 public class ColorAppController {
 
     private Color currentColor;
+    private int red;
+    private int green;
+    private int blue;
 
     @FXML
     private Label redLabel;
@@ -41,25 +44,54 @@ public class ColorAppController {
 
     @FXML
     private void initialize() {
-        // Labels
+        // Styling
+        redInput.setPrefWidth(40);
+        greenInput.setPrefWidth(40);
+        blueInput.setPrefWidth(40);
+
+        redSlider.setPrefWidth(200);
+        greenSlider.setPrefWidth(200);
+        blueSlider.setPrefWidth(200);
+
         redLabel.setText("Red");
         greenLabel.setText("Green");
         blueLabel.setText("Blue");
         hexLabel.setText("Hex");
 
-        // Input
-        redInput.setText(Integer.toString((int) redSlider.getValue()));
-        greenInput.setText(Integer.toString((int) greenSlider.getValue()));
-        blueInput.setText(Integer.toString((int) blueSlider.getValue()));
-        hexInput.setText("#TODO");
+        // Init values
+        currentColor = new Color("#D58D35");
+        red = currentColor.getRed();
+        green = currentColor.getGreen();
+        blue = currentColor.getBlue();
+
+        redInput.setText(Integer.toString(red));
+        greenInput.setText(Integer.toString(green));
+        blueInput.setText(Integer.toString(blue));
+        hexInput.setText(currentColor.getHexValue());
+
+        redSlider.setValue(red);
+        greenSlider.setValue(green);
+        blueSlider.setValue(blue);
+
+        // Alternatively :
+        // colorShape.setFill(javafx.scene.paint.Color.web(currentColor.getHexValue());
+        colorShape.setFill(javafx.scene.paint.Color.rgb(red, green, blue));
 
         // RED slider/input binding
         redSlider.valueProperty().addListener(
-                (observableValue, oldValue, newValue) -> redInput.setText(
-                        Integer.toString((int) redSlider.getValue())));
+                (observableValue, oldValue, newValue) -> {
+                    red = (int) redSlider.getValue();
+                    currentColor.setRed(red);
+                    redInput.setText(Integer.toString(red));
+                    colorShape.setFill(javafx.scene.paint.Color.rgb(red, green, blue));
+                });
         redInput.textProperty().addListener(
-                (observableText, oldText, newText) -> redSlider.setValue(
-                        Double.parseDouble(redInput.textProperty().getValue())));
+                (observableText, oldText, newText) -> {
+                    red = Integer.parseInt(redInput.textProperty().getValue());
+                    currentColor.setRed(red);
+                    redSlider.setValue(red);
+                    colorShape.setFill(javafx.scene.paint.Color.rgb(red, green, blue));
+                });
 
         // GREEN slider/input binding
         greenSlider.valueProperty().addListener(
