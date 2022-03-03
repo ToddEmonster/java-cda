@@ -9,8 +9,8 @@ import java.util.regex.Pattern;
 public class Color {
 
     // Constantes de format des valeurs
-    final static int RGB_INFERIOR_LIMIT = 0;
-    final static int RGB_SUPERIOR_LIMIT = 255;
+    final static short RGB_INFERIOR_LIMIT = 0;
+    final static short RGB_SUPERIOR_LIMIT = 255;
     final static String HEX_DOUBLE_DIGIT_REGEX_PATTERN = "([0-9a-fA-F]{2}+)";
     final static Pattern HEX_CODE_REGEX_PATTERN = Pattern.compile(
             "#" + String.join("", Collections.nCopies(3, HEX_DOUBLE_DIGIT_REGEX_PATTERN)));
