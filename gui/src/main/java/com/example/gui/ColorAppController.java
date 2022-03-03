@@ -77,6 +77,8 @@ public class ColorAppController {
         // colorShape.setFill(javafx.scene.paint.Color.web(currentColor.getHexValue());
         colorShape.setFill(javafx.scene.paint.Color.rgb(red, green, blue));
 
+        // TODO : if no text in input when focus is out, set to 0
+
         // RED slider/input binding
         redSlider.valueProperty().addListener(
                 (observableValue, oldValue, newValue) -> {
@@ -95,28 +97,47 @@ public class ColorAppController {
 
         // GREEN slider/input binding
         greenSlider.valueProperty().addListener(
-                (observableValue, oldValue, newValue) -> greenInput.setText(
-                        Integer.toString((int) greenSlider.getValue())));
+                (observableValue, oldValue, newValue) -> {
+                    green = (int) greenSlider.getValue();
+                    currentColor.setRed(green);
+                    greenInput.setText(Integer.toString(green));
+                    colorShape.setFill(javafx.scene.paint.Color.rgb(red, green, blue));
+                });
         greenInput.textProperty().addListener(
-                (observableText, oldText, newText) -> greenSlider.setValue(
-                        Double.parseDouble(greenInput.textProperty().getValue())));
+                (observableText, oldText, newText) -> {
+                    green = Integer.parseInt(greenInput.textProperty().getValue());
+                    currentColor.setRed(green);
+                    greenSlider.setValue(green);
+                    colorShape.setFill(javafx.scene.paint.Color.rgb(red, green, blue));
+                });
 
         // BLUE slider/input binding
         blueSlider.valueProperty().addListener(
-                (observableValue, oldValue, newValue) -> blueInput.setText(
-                        Integer.toString((int) blueSlider.getValue())));
+                (observableValue, oldValue, newValue) -> {
+                    blue = (int) blueSlider.getValue();
+                    currentColor.setRed(blue);
+                    blueInput.setText(Integer.toString(blue));
+                    colorShape.setFill(javafx.scene.paint.Color.rgb(red, green, blue));
+                });
         blueInput.textProperty().addListener(
-                (observableText, oldText, newText) -> blueSlider.setValue(
-                        (newText.equals(""))
-                            ? 0
-                            : Double.parseDouble(blueInput.textProperty().getValue())));
+                (observableText, oldText, newText) -> {
+                    blue = Integer.parseInt(blueInput.textProperty().getValue());
+                    currentColor.setRed(blue);
+                    blueSlider.setValue(blue);
+                    colorShape.setFill(javafx.scene.paint.Color.rgb(red, green, blue));
+                });
 
-        // HEX input binding TODO with library
-//        hexInput.textProperty().addListener(
-//
-//        )
+        // HEX input binding
+        hexInput.textProperty().addListener(
+                (observableValue, oldValue, newValue) -> {
+                    currentColor.setHexValue(hexInput.textProperty().getValue());
+                    redInput.setText(String.valueOf(currentColor.getRed()));
+                    greenInput.setText(String.valueOf(currentColor.getGreen()));
+                    blueInput.setText(String.valueOf(currentColor.getBlue()));
+                    colorShape.setFill(javafx.scene.paint.Color.web(hexInput.textProperty().getValue()));
+                });
 
     }
 
-    // TODO : if no text in input when focus is out, set to 0
+
 }
