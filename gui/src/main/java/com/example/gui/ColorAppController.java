@@ -5,8 +5,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.shape.Rectangle;
+import todd.color.model.Color;
 
 public class ColorAppController {
+
+    private Color currentColor;
 
     @FXML
     private Label redLabel;
@@ -18,29 +21,23 @@ public class ColorAppController {
     private Label hexLabel;
 
     @FXML
-    private Slider redSlider = new Slider(0, 255, 213);
+    private Slider redSlider;
+    @FXML
+    private Slider greenSlider;
+    @FXML
+    private Slider blueSlider;
 
     @FXML
-    private Slider greenSlider = new Slider(0, 255, 141);
+    private TextField redInput;
+    @FXML
+    private TextField greenInput;
+    @FXML
+    private TextField blueInput;
+    @FXML
+    private TextField hexInput;
 
     @FXML
-    private Slider blueSlider = new Slider(0, 255, 53);
-
-    @FXML
-    private TextField redInput = new TextField();
-
-    @FXML
-    private TextField greenInput = new TextField();
-
-    @FXML
-    private TextField blueInput = new TextField();
-
-    @FXML
-    private TextField hexInput = new TextField();
-
-    // TODO color square
-    @FXML
-    private Rectangle colorShape = new Rectangle();
+    private Rectangle colorShape;
 
     @FXML
     private void initialize() {
@@ -86,6 +83,7 @@ public class ColorAppController {
 //        hexInput.textProperty().addListener(
 //
 //        )
+
     }
 
     // TODO : if no text in input when focus is out, set to 0
