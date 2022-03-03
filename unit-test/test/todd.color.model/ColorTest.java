@@ -1,7 +1,7 @@
-import color.model.Color;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import todd.color.model.Color;
 
 import java.util.function.Function;
 

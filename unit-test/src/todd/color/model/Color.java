@@ -1,4 +1,4 @@
-package color.model;
+package todd.color.model;
 
 import java.util.Collections;
 import java.util.Hashtable;
@@ -11,7 +11,7 @@ public class Color {
     // Constantes de format des valeurs
     final static short RGB_INFERIOR_LIMIT = 0;
     final static short RGB_SUPERIOR_LIMIT = 255;
-    final static String HEX_DOUBLE_DIGIT_REGEX_PATTERN = "([0-9a-fA-F]{2}+)";
+    final static String HEX_DOUBLE_DIGIT_REGEX_PATTERN = "([0-9A-F]{2}+)";
     final static Pattern HEX_CODE_REGEX_PATTERN = Pattern.compile(
             "#" + String.join("", Collections.nCopies(3, HEX_DOUBLE_DIGIT_REGEX_PATTERN)));
 
@@ -118,17 +118,20 @@ public class Color {
         }
     }
 
-    public void setHexValue(String hexValue) throws IllegalArgumentException{
+    public void setHexValue(String hexValue) throws IllegalArgumentException {
+        if (hexValue == null) throw new IllegalArgumentException(HEX_CODE_INVALID_ERROR_MESSAGE);
+
         Matcher matcher = HEX_CODE_REGEX_PATTERN.matcher(hexValue);
         boolean hexadecimalInputIsCorrect = matcher.matches();
-        if (hexadecimalInputIsCorrect) {
+
+        if (!hexadecimalInputIsCorrect) {
+            throw new IllegalArgumentException(HEX_CODE_INVALID_ERROR_MESSAGE);
+        } else {
             // group(0) = whole pattern
             this.red = hexDoubleDigitToRGBValue(matcher.group(1));
             this.green = hexDoubleDigitToRGBValue(matcher.group(2));
             this.blue = hexDoubleDigitToRGBValue(matcher.group(3));
             this.hexValue = hexValue;
-        } else {
-            throw new IllegalArgumentException(HEX_CODE_INVALID_ERROR_MESSAGE);
         }
     }
 
@@ -177,4 +180,13 @@ public class Color {
         return rgbValue >= RGB_INFERIOR_LIMIT && rgbValue <= RGB_SUPERIOR_LIMIT;
     }
 
+    @Override
+    public String toString() {
+        return "[" +
+                    "value=" + hexValue +
+                    ", r=" + red +
+                    ", g=" + green +
+                    ", b=" + blue +
+                "]";
+    }
 }
