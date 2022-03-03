@@ -30,7 +30,11 @@ public class ColorAppController {
         redInput.setText(Integer.toString((int) redSlider.getValue()));
 
         redSlider.valueProperty().addListener(
-                (observableValue, oldValue, newValue) -> redInput.setText(Integer.toString((int) redSlider.getValue())));
+                (observableValue, oldValue, newValue) -> redInput.setText(
+                        Integer.toString((int) redSlider.getValue())));
+        redInput.textProperty().addListener(
+                (observableText, oldText, newText) -> redSlider.setValue(
+                        Double.parseDouble(redInput.textProperty().getValue())));
     }
 
     @FXML
@@ -38,11 +42,11 @@ public class ColorAppController {
         welcomeText.setText("Welcome to JavaFX Application!");
     }
 
-    @FXML
-    protected void onSliderChanged() {
-        int slidervalue = (int) redSlider.getValue();
-        redInput.setText(Integer.toString(slidervalue));
-    }
+//    @FXML
+//    protected void onSliderChanged() {
+//        int slidervalue = (int) redSlider.getValue();
+//        redInput.setText(Integer.toString(slidervalue));
+//    }
 
 
 }

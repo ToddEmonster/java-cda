@@ -21,7 +21,7 @@
     <VBox>
         <Label fx:id="redLabel" />
         <HBox alignment="center" spacing="25.0">
-            <Slider fx:id="redSlider" onMouseReleased="#onSliderChanged" min="0" max="255"/>
+            <Slider fx:id="redSlider" min="0" max="255"/>
             <TextField fx:id="redInput"/>
         </HBox>
     </VBox>
