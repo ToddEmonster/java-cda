@@ -11,7 +11,7 @@ public class ColorAppApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(ColorAppApplication.class.getResource("color-app-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+        Scene scene = new Scene(fxmlLoader.load(), 720, 300);
         stage.setTitle("Color App");
         stage.setScene(scene);
         stage.show();

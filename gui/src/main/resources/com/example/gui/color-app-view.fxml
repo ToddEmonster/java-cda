@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.shape.Rectangle?>
 <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.gui.ColorAppController">
     <padding>
@@ -31,10 +32,10 @@
                 <TextField fx:id="blueInput"/>
             </HBox>
         </VBox>
-        <VBox>
+        <VBox style="-fx-border: solid 1px red; -fx-padding: 50;">
             <Label fx:id="hexLabel" />
-            <TextField fx:id="hexInput"/>
-            <!-- TODO square-->
+            <TextField alignment="center" fx:id="hexInput"/>
+            <Rectangle fx:id="colorShape" width="200" height="150" />
         </VBox>
     </HBox>
 

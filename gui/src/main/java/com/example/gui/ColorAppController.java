@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.shape.Rectangle;
 
 public class ColorAppController {
 
@@ -38,7 +39,8 @@ public class ColorAppController {
     private TextField hexInput = new TextField();
 
     // TODO color square
-
+    @FXML
+    private Rectangle colorShape = new Rectangle();
 
     @FXML
     private void initialize() {
@@ -76,7 +78,14 @@ public class ColorAppController {
                         Integer.toString((int) blueSlider.getValue())));
         blueInput.textProperty().addListener(
                 (observableText, oldText, newText) -> blueSlider.setValue(
-                        Double.parseDouble(blueInput.textProperty().getValue())));
+                        (newText.equals(""))
+                            ? 0
+                            : Double.parseDouble(blueInput.textProperty().getValue())));
+
+        // HEX input binding TODO with library
+//        hexInput.textProperty().addListener(
+//
+//        )
     }
 
     // TODO : if no text in input when focus is out, set to 0
