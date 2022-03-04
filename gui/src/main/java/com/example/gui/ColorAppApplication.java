@@ -12,7 +12,7 @@ public class ColorAppApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(ColorAppApplication.class.getResource("color-app-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 720, 300);
+        Scene scene = new Scene(fxmlLoader.load(), 600, 300);
         scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
         stage.setTitle("Color App");
         stage.setScene(scene);

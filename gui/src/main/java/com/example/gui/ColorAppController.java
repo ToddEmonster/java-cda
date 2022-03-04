@@ -44,19 +44,6 @@ public class ColorAppController {
 
     @FXML
     private void initialize() {
-        // Styling
-        redInput.setPrefWidth(40);
-        greenInput.setPrefWidth(40);
-        blueInput.setPrefWidth(40);
-
-        redSlider.setPrefWidth(200);
-        greenSlider.setPrefWidth(200);
-        blueSlider.setPrefWidth(200);
-
-        redLabel.setText("Red");
-        greenLabel.setText("Green");
-        blueLabel.setText("Blue");
-        hexLabel.setText("Hex");
 
         // Init values
         currentColor = new Color("#D58D35");
@@ -86,6 +73,7 @@ public class ColorAppController {
                     currentColor.setRed(red);
                     redInput.setText(Integer.toString(red));
                     colorShape.setFill(javafx.scene.paint.Color.rgb(red, green, blue));
+                    hexInput.setText(currentColor.getHexValue());
                 });
         redInput.textProperty().addListener(
                 (observableText, oldText, newText) -> {
@@ -93,38 +81,43 @@ public class ColorAppController {
                     currentColor.setRed(red);
                     redSlider.setValue(red);
                     colorShape.setFill(javafx.scene.paint.Color.rgb(red, green, blue));
+                    hexInput.setText(currentColor.getHexValue());
                 });
 
         // GREEN slider/input binding
         greenSlider.valueProperty().addListener(
                 (observableValue, oldValue, newValue) -> {
                     green = (int) greenSlider.getValue();
-                    currentColor.setRed(green);
+                    currentColor.setGreen(green);
                     greenInput.setText(Integer.toString(green));
                     colorShape.setFill(javafx.scene.paint.Color.rgb(red, green, blue));
+                    hexInput.setText(currentColor.getHexValue());
                 });
         greenInput.textProperty().addListener(
                 (observableText, oldText, newText) -> {
                     green = Integer.parseInt(greenInput.textProperty().getValue());
-                    currentColor.setRed(green);
+                    currentColor.setGreen(green);
                     greenSlider.setValue(green);
                     colorShape.setFill(javafx.scene.paint.Color.rgb(red, green, blue));
+                    hexInput.setText(currentColor.getHexValue());
                 });
 
         // BLUE slider/input binding
         blueSlider.valueProperty().addListener(
                 (observableValue, oldValue, newValue) -> {
                     blue = (int) blueSlider.getValue();
-                    currentColor.setRed(blue);
+                    currentColor.setBlue(blue);
                     blueInput.setText(Integer.toString(blue));
                     colorShape.setFill(javafx.scene.paint.Color.rgb(red, green, blue));
+                    hexInput.setText(currentColor.getHexValue());
                 });
         blueInput.textProperty().addListener(
                 (observableText, oldText, newText) -> {
                     blue = Integer.parseInt(blueInput.textProperty().getValue());
-                    currentColor.setRed(blue);
+                    currentColor.setBlue(blue);
                     blueSlider.setValue(blue);
                     colorShape.setFill(javafx.scene.paint.Color.rgb(red, green, blue));
+                    hexInput.setText(currentColor.getHexValue());
                 });
 
         // HEX input binding
@@ -137,6 +130,7 @@ public class ColorAppController {
                     colorShape.setFill(javafx.scene.paint.Color.web(hexInput.textProperty().getValue()));
                 });
 
+        // TODO : try catch pour prévoir les cas des valeurs incorrectes
     }
 
 
